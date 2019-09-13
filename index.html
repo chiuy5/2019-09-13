@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <link rel="stylesheet" href="rrbday.css">
+    <link href="https://fonts.googleapis.com/css?family=Swanky+and+Moo+Moo&display=swap" rel="stylesheet">
+  </head>
+
+  <body>
+      <div class="container wrapper" id="main">
+        <div id="holder">
+          <div id="envelope">
+          </div>
+        </div>
+      </div>
+  </body>
+  <footer><div id="footer" class="no-display">By doda</br>Confetti by <a href="http://www.cagrimmett.com/til/2018/01/05/css-confetti.html">Chuck Grimmett</a></div></footer>
+
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+ 
+  <script>
+    //Confetti from: http://www.cagrimmett.com/til/2018/01/05/css-confetti.html
+    function create(i) {
+
+      var width = Math.random() * 8;
+      var height = width * 0.4;
+      var colourIdx = Math.ceil(Math.random() * 3);
+      var colour = "red";
+      switch(colourIdx) {
+        case 1:
+          colour = "yellow";
+          break;
+        case 2:
+          colour = "blue";
+          break;
+        default:
+          colour = "red";
+      }
+      $('<div class="confetti-'+i+' '+colour+'"></div>').css({
+        "width" : width+"px",
+        "height" : height+"px",
+        "top" : -Math.random()*20+"%",
+        "left" : Math.random()*100+"%",
+        "opacity" : Math.random()+0.5,
+        "transform" : "rotate("+Math.random()*360+"deg)"
+      }).appendTo('.wrapper');  
+      
+      drop(i);
+    }
+
+    function drop(x) {
+      $('.confetti-'+x).animate({
+        top: "100%",
+        left: "+="+Math.random()*15+"%"
+      }, Math.random()*3000 + 3000, function() {
+        reset(x);
+      });
+    }
+
+    function reset(x) {
+      $('.confetti-'+x).animate({
+        "top" : -Math.random()*20+"%",
+        "left" : "-="+Math.random()*15+"%"
+      }, 0, function() {
+        drop(x);             
+      });
+    }
+    
+      var main = $("#holder");
+      var envelope = $("#envelope");
+      var birthday_image = document.createElement("img");
+      birthday_image.setAttribute("src", "pics/rabbits.png");
+
+      $("#envelope").on("click", function() {
+
+        // remove the envelope
+        $("#holder").html("");
+  
+        // add the poof and remove it 
+        var poof = document.createElement("div");
+        poof.setAttribute("id", "poof");
+        poof.setAttribute("class", "zoom-in");
+        main.append(poof);
+  
+        
+        window.setTimeout(function () {
+          poof.setAttribute("class", "fade-out");
+
+          window.setTimeout(function () {
+          $("#holder").html("");
+
+          //add the birthday picture
+          var birthday = document.createElement("div");
+          birthday.setAttribute("id", "birthday");
+          birthday.setAttribute("class", "jump-in");
+          birthday.appendChild(birthday_image);
+          main.append(birthday);
+
+          var message = document.createElement("img");
+          message.setAttribute("src", "pics/bday-greeting.png");
+          message.setAttribute("class", "fade-in");
+
+          var footer = document.getElementById("footer");
+          footer.setAttribute("class", "fade-in");
+
+          window.setTimeout(function() {
+            birthday.append(message);
+          }, 500);
+            for (var i = 0; i < 250; i++) {
+              create(i);
+            }
+          }, 300);
+        }, 1000);
+        
+      });
+    </script>
+</html>
+
+
